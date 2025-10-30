@@ -1,0 +1,49 @@
+# AI-Based Smart Home Energy Saver Simulation
+import random
+import time
+
+def get_sensor_data():
+    """Simulate reading data from sensors"""
+    temperature = random.randint(20, 40)  # °C
+    motion = random.choice([True, False])
+    light_intensity = random.randint(100, 1000)  # lux
+    hour = random.randint(0, 23)
+    return temperature, motion, light_intensity, hour
+
+def energy_saver_ai(temperature, motion, light_intensity, hour):
+    """AI logic for controlling home appliances"""
+    actions = []
+
+    # Light control
+    if not motion:
+        actions.append("Lights OFF (No motion detected)")
+    elif light_intensity < 300:
+        actions.append("Lights ON (Low light detected)")
+    else:
+        actions.append("Lights OFF (Sufficient light)")
+
+    # Fan/AC control
+    if temperature > 30:
+        actions.append("Fan/AC ON (Room too hot)")
+    elif temperature < 22:
+        actions.append("Fan/AC OFF (Room cool enough)")
+    else:
+        actions.append("Fan/AC AUTO mode")
+
+    # Night mode
+    if hour >= 23 or hour <= 5:
+        actions.append("Power Saving Mode ON (Night time)")
+    else:
+        actions.append("Normal Mode (Day time)")
+
+    return actions
+
+# Main Simulation
+for i in range(3):
+    print(f"\n--- Reading {i+1} ---")
+    temp, motion, light, hr = get_sensor_data()
+    print(f"Temperature: {temp}°C | Motion: {motion} | Light: {light} lux | Time: {hr}:00")
+    result = energy_saver_ai(temp, motion, light, hr)
+    for action in result:
+        print("→", action)
+    time.sleep(1)
